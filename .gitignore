@@ -6,3 +6,4 @@ target/
 # python settings
 venv
 .ipynb_checkpoints
+.vscode
