@@ -3,11 +3,11 @@ package me.dalsat.adventofcode
 import scala.io.Source
 
 
-abstract class InputLoader(val year=2020, val day: Int) extends App {
+abstract class InputLoader(val day: Int) extends App {
 
   type Dataset = Seq[String]
 
-  protected val inputDirectory: String = s"input/${year}/day-${day}"
+  protected val inputDirectory: String = s"input/day-${day}"
   lazy val sample: Dataset = readSample()
   lazy val input: Dataset = readInput()
 

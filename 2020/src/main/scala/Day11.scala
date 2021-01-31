@@ -13,11 +13,11 @@ object Day11 extends InputLoader(11) {
 //  val sm = new SeatingMap(sample, ExtendedSeatStrategy)
     val sm = new SeatingMap(input, ExtendedSeatStrategy)
 
-  println(sm)
-  println()
-  println(sm.toFixedPoint)
-
-  println(s"Day ${day} done")
+    println(sm)
+    println()
+    println(sm.toFixedPoint)
+  
+    println(s"Day ${day} done")
 }
 
 
