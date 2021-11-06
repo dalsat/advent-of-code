@@ -1,36 +1,42 @@
 package me.dalsat.adventofcode
 
-import me.dalsat.adventofcode.InputLoader
+import me.dalsat.adventofcode.Solution
+
+import scala.annotation.tailrec
 
 
-object Day15 extends InputLoader(15) {
+object Day15 extends Solution(15):
 
-  @main def start = {
-    
-    val eg = ElvesGame(sample(0))
-    println(eg.lastSpokenNumber(2020))
-    
-    done
-  }
+  override def part1: SolutionType =
+    val eg = ElvesGame(input.head)
+    eg.lastSpokenNumber(2020)
 
-  
-  class ElvesGame(val numbers: Seq[Int], val turn: Int = 0, val memory: Map[Int, Int] = Map()) {
-    
-    def this(numbers: String) = this(numbers.split(",").map(_.toInt).toList)
+  override def part2 =
+    val eg = ElvesGame(input.head)
+    eg.lastSpokenNumber(30000000)
 
-    if numbers.nonEmpty then initializeNumbers
 
-    def initializeNumbers: Unit = {}
-    
-    def sayNumber(number: Int): ElvesGame = ElvesGame(numbers, turn + 1, memory + (number -> turn))
-    
-    def lastSpokenNumber(lastTurn: Int) = {
+  class ElvesGame(numbersString: String):
 
-      def loop(turn: Int): Int =
-        if turn == lastTurn then turn
-        else loop(turn + 1)
+    private val numbers: List[Int] = numbersString.split(",").map(_.toInt).toList
+    private val initialTurn: Int = numbers.size + 1
+    private val initialMemory = numbers.zip(1 to initialTurn).toMap
 
-      loop(0)
+    def computeNextNumber(turn: Int, lastSpokenNumber: Int, memory: Map[Int, Int]): Int =
+      if memory contains lastSpokenNumber then
+        turn - memory(lastSpokenNumber)
+      else
+        0
+
+    def lastSpokenNumber(targetTurn: Int): Int = {
+
+      @tailrec
+      def loop(turn: Int, lastSpokenNumber: Int, memory: Map[Int, Int]): Int =
+        if turn >= targetTurn then lastSpokenNumber
+        else
+          val nextNumber = computeNextNumber(turn, lastSpokenNumber, memory)
+          loop(turn + 1, nextNumber, memory + (lastSpokenNumber -> turn))
+
+      loop(initialTurn, 0, this.initialMemory)
     }
-  }
-}
+

@@ -1,23 +1,13 @@
 package me.dalsat.adventofcode
 
-import me.dalsat.adventofcode.InputLoader
+import me.dalsat.adventofcode.Solution
 
 
-object Day14 extends InputLoader(14) {
+object Day14 extends Solution(14) {
 
-  @main def run = {
+  override def part1 = DockInterpreter(input, OverwriteMemory()).sums
+  override def part2 = DockInterpreter(input, AddressMemory()).sums
 
-    println(s"Part 1, sample result: ${DockInterpreter(sample, OverwriteMemory()).sums}")
-    println(s"Part 1, input result: ${DockInterpreter(input, OverwriteMemory()).sums}")
-
-    val sample2 = readFromFile("sample-2.txt")
-    println(s"Part 2, sample result: ${DockInterpreter(sample2, AddressMemory()).sums}")
-    println(s"Part 2, input result: ${DockInterpreter(input, AddressMemory()).sums}")
-
-    println
-
-    done
-  }
 
   class DockInterpreter(dataset: Dataset, val memory: Memory) {
 
