@@ -3,40 +3,23 @@ package me.dalsat.adventofcode
 
 object Day1 extends Solution(1):
 
-  val cc = new CurrencyCalculator(2020)
+  val cc = new CurrencyCalculator(input)
 
-  override def part1 = cc.find(input)
+  override def part1 = cc.find2(2020).get
 
-  override def part2 = cc.find3(input)
-
-
-  class CurrencyCalculator(target: Int):
-
-    def find(dataset: Dataset) =
-      find2(dataset.map(_.toInt).toSet) match {
-        case Some(number) => computeResult(number)
-        case _ => throw new RuntimeException("Element not found")
-      }
+  override def part2 = cc.find3(2020)
 
 
-    def find2(items: Set[Int]): Option[Int] = items.find(each => items contains (target - each))
+  class CurrencyCalculator(dataset: Dataset):
 
-    protected def computeResult(number: Int): Int = {
-      number * (target - number)
-    }
+    val values = dataset map (_.toInt)
+
+    private def complementsFor(target: Int) = (values map (target - _)).toSet
+
+    def find2(target: Int) =
+      val complements = complementsFor(target)
+      values find (complements contains _) map (matched => matched * (target - matched))
 
 
-    def find3(items: Seq[String]): Int = find3(items.map(_.toInt).toSet)
-
-    private def find3(items: Set[Int]): Int =
-      for (
-        first <- items;
-        second <- items
-      ) {
-        val third = target - (first + second)
-        if items.contains(third) && first != second && second != third then
-          return first * second * third
-        //        println(s"${first}, ${second}, ${third}")
-        //        println(first * second * third)
-      }
-      throw Error("value not found")
+    def find3(target: Int): Int =
+      values.flatMap(value => find2(target - value) map (_ * value)).head
