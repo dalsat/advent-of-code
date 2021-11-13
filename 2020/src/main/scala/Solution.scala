@@ -4,7 +4,7 @@ import scala.io.Source
 
 
 type Dataset = Seq[String]
-type SolutionType = Long
+type SolutionType = AnyVal
 
 
 trait Solution(val day: Int):

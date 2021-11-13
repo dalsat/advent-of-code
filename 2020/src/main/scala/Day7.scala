@@ -5,42 +5,22 @@ import scala.annotation.tailrec
 
 object Day7 extends Solution(7):
 
-  override def part1 = 259 // FIXME: implementation got lost
+  override def part1 = rp.countContainersFor("shiny gold")
 
   override def part2 = rp.needsToContain("shiny gold") - 1
 
   val rp = RuleParser(input)
 
-  //  println(rp.parse(rp.sample))
-//  println(rp.parse(rp.input))
-
-
-  //  rp.parse()
-
-  println(rp.bagContains)
-  println(rp.bagContainedIn)
-  println(rp.bagContainedIn("shiny gold"))
-
-  println(rp.needsToContain("shiny gold") - 1)
-
-
-    println(rp.containersFor("shiny gold"))
-    println(rp.countContainersFor("shiny gold"))
-  //  println(rp.parseRule("light red bags contain 1 bright white bag, 2 muted yellow bags."))
-  println("Day 7 done")
-
 
   class RuleParser(dataset: Dataset):
 
-    val bagContains: Map[String, Seq[Bag]] = parse(dataset)
-    //  var containedBy: Map[String, Seq[String]] = Map()
-    var bagContainedIn: Map[String, Seq[String]] =
-      (bagContains flatMap
-        { case (key, value) => value map (e => e.color -> key) }).toList.groupMap(_._1)(_._2)
+    private val items = parse(dataset)
 
+    val bagContains: Map[String, Seq[Bag]] = items.groupMap(_._1)(_._2) //parse(dataset)
+    var bagContainedIn: Map[String, Seq[String]] = items.groupMap { case (_, Bag(name, count)) => name }(_._1)
 
     private def parse(dataset: Dataset) =
-      (dataset flatMap parseLine).groupMap(_._1)(_._2)
+      (dataset flatMap parseLine)
 
 
     private def parseLine(rule: String) =
@@ -71,18 +51,17 @@ object Day7 extends Solution(7):
     }
 
 
-    def containersFor(target: String): Set[String] = {
+    def containersFor(target: String): Set[String] =
 
       def loop(currentBag: String): Set[String] =
         (bagContainedIn.get(currentBag)
           .map(containers => containers flatMap loop)
           .getOrElse(Nil)
-          appended currentBag)
+          .appended(currentBag))
           .toSet
 
       loop(target) - target
-      //    ((index.get(target) map { _ map loop }).get)
-    }
+
 
     def countContainersFor(target: String): Int = containersFor(target).size
 

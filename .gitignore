@@ -1,7 +1,7 @@
 target/
 .idea/
 .bsp/
-
+.metals/
 
 # python settings
 venv

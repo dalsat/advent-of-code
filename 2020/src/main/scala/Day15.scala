@@ -7,13 +7,9 @@ import scala.annotation.tailrec
 
 object Day15 extends Solution(15):
 
-  override def part1: SolutionType =
-    val eg = ElvesGame(input.head)
-    eg.lastSpokenNumber(2020)
+  override def part1 = ElvesGame(input.head).lastSpokenNumber(2020)
 
-  override def part2 =
-    val eg = ElvesGame(input.head)
-    eg.lastSpokenNumber(30000000)
+  override def part2 = ElvesGame(input.head).lastSpokenNumber(30000000)
 
 
   class ElvesGame(numbersString: String):
