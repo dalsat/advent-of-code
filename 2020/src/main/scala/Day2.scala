@@ -6,50 +6,39 @@ import me.dalsat.adventofcode.Solution
 object Day2 extends Solution(2):
 
 
-  override def part1 = PasswordChecker().countValidPasswords(input)
+  override def part1 = PasswordChecker(FirstCheckStategy).countValidPasswords(input)
 
-  override def part2 = NewPasswordChecker().countValidPasswords(input)
+  override def part2 = PasswordChecker(SecondCheckStrategy).countValidPasswords(input)
 
 
-  class PasswordChecker:
+  class PasswordChecker(val checkStrategy: CheckStrategy):
 
     def countValidPasswords(dataset: Dataset): Int = validPasswords(dataset).count(e => e)
 
-    def validPasswords(dataset: Dataset): Seq[Boolean] = parseAll(dataset) map (_.validate)
+    def validPasswords(dataset: Dataset): Seq[Boolean] = parseAll(dataset) map checkStrategy.apply
 
     private def parseAll(lines: Dataset) = lines.map(parseLine)
 
-    protected def parseLine(line: String) = line.split("[ :-]") match {
+    def parseLine(line: String): Line = line.split("[ :-]") match {
       case Array(min, max, letter, _, password) =>
-        Line(OldPolicy(letter(0), Integer.parseInt(min), Integer.parseInt(max)), password)
+        Line(letter(0), Integer.parseInt(min), Integer.parseInt(max), password)
     }
 
 
-  class NewPasswordChecker extends PasswordChecker:
+  case class Line(letter: Char, min: Int, max: Int, password: String)
 
-    // TODO: this is ugly, reafctor using implicits
-    override def parseLine(line: String): Line = line.split("[ :-]") match {
-      case Array(min, max, letter, _, password) =>
-        Line(NewPolicy(letter(0), Integer.parseInt(min), Integer.parseInt(max)), password)
-    }
+  sealed trait CheckStrategy:
+    def apply(line: Line): Boolean
 
+  object FirstCheckStategy extends CheckStrategy:
 
-  case class Line(policy: Policy, password: String):
-    def validate: Boolean = policy.validate(password)
-
-
-  abstract class Policy:
-    def validate(password: String): Boolean
-
-  case class OldPolicy(letter: Char, min: Int, max: Int) extends Policy:
-
-    def validate(password: String): Boolean =
+    def apply(line: Line): Boolean =
+      val Line(letter, min, max, password) = line
       val count = password.count(c => letter.equals(c))
       min <= count && count <= max
 
-
-  case class NewPolicy(letter: Char, min: Int, max: Int) extends Policy:
-
-    def validate(password: String): Boolean =
+  object SecondCheckStrategy extends CheckStrategy:
+    def apply(line: Line): Boolean =
+      val Line(letter, min, max, password) = line
       (password.length > min - 1 && password(min - 1) == letter) ^
         (password.length > max - 1 && password(max - 1) == letter)

@@ -6,7 +6,7 @@ import scala.math.pow
 object Day5  extends Solution(5):
 
 
-  override def part1 = sd.findMax()
+  override def part1 = sd.findMax
 
   override def part2 = missing.max
 
@@ -51,4 +51,4 @@ object Day5  extends Solution(5):
 
     def decodeAll(): Seq[Int] = dataset.map(decode)
 
-    def findMax(): Int = decodeAll().max
+    def findMax: Int = decodeAll().max
