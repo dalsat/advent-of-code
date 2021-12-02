@@ -12,9 +12,6 @@ def parse(data: Dataset):
 
 
 def parse_line(line: str) -> tuple[int, int]:
-    '''
-    Execute a command and return the movement of the submarine
-    '''
     direction, delta = tuple(map(str.strip, line.split()))
     return (direction, int(delta))
 
