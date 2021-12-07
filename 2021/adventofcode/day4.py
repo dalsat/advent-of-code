@@ -2,8 +2,6 @@ from __future__ import annotations
 from functools import reduce
 from itertools import takewhile
 
-from numpy.lib.function_base import select
-
 from common import day, Dataset, Solution, any_of, parse_numbers
 
 
