@@ -7,3 +7,5 @@ target/
 venv
 .ipynb_checkpoints
 .vscode
+
+__pycache__/
