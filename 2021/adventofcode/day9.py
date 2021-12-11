@@ -2,7 +2,7 @@ from __future__ import annotations
 from functools import reduce
 from itertools import chain
 
-from common import day, Dataset, Solution, all_of, mult_all, take
+from common import day, Dataset, Solution, all_of
 
 
 Point = tuple[int, int]
