@@ -14,8 +14,6 @@ mapping = {
 openings = set(mapping.values())
 closings = set(mapping.keys())
 
-print(closings)
-
 
 def validate_line(line):
     stack = []
