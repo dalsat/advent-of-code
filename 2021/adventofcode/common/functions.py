@@ -7,7 +7,11 @@ from .typing import Dataset
 def day(day: int, apply=lambda e: e) -> Dataset:
     try:
         with open(f'input/day-{day}.txt') as file:
-            return list([apply(line.strip()) for line in file.readlines()])
+            lines = list([apply(line.strip()) for line in file.readlines()])
+            if len(lines) == 1:
+                return lines[0]
+            else:
+                return lines
     except FileNotFoundError as e:
         print(e, file=sys.stderr)
         sys.exit(-1)
