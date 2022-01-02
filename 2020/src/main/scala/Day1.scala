@@ -16,9 +16,9 @@ object Day1 extends Solution(1):
 
     private def complementsFor(target: Int) = (values map (target - _)).toSet
 
-    def find2(target: Int) =
+    def find2(target: Int): Option[Int] =
       val complements = complementsFor(target)
-      values find (complements contains _) map (matched => matched * (target - matched))
+      values find complements.contains map (matched => matched * (target - matched))
 
 
     def find3(target: Int): Int =
