@@ -6,5 +6,5 @@ def load_day(day: int, separator="\n"):
         data: Any = f.read()
 
     if separator:
-        data = data.split(separator)
+        data = [line for line in data.split(separator) if line]
     return data
