@@ -2,17 +2,21 @@ import re
 from typing import Any
 
 
-def load_day(day: int, separator="\n"):
+def load_day(day: int, separator="\n", extract_singleton=True):
     with open(f"input/day-{str(day).zfill(2)}.txt", "r") as f:
         data: Any = f.read()
 
     if separator:
         data = [line for line in data.split(separator) if line]
+    
+    if extract_singleton and len(data) == 1:
+        data = data[0]
+
     return data
 
 
 def parse_numbers(line: str) -> list[int]:
-    return tuple(map(int, re.findall(r'-?\d+', line)))
+    return list(map(int, re.findall(r'-?\d+', line)))
 
 
 def count(elements: list, predicate=bool) -> int:
