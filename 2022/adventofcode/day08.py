@@ -1,5 +1,5 @@
 from __future__ import annotations
-from aoc import load_day, parse_numbers
+from aoc import load_day
 
 
 __day__ = 8

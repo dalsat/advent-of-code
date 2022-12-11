@@ -1,4 +1,4 @@
-from aoc import load_day, parse_numbers
+from aoc import load_day
 
 
 __day__ = 10
