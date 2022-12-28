@@ -1,6 +1,8 @@
 import re
-from typing import Any
+from typing import Any, Callable
 
+
+Point = tuple[int, int]
 
 def load_day(day: int, separator="\n", extract_singleton=True):
     with open(f"input/day-{str(day).zfill(2)}.txt", "r") as f:
@@ -19,11 +21,11 @@ def parse_numbers(line: str) -> list[int]:
     return list(map(int, re.findall(r'-?\d+', line)))
 
 
-def count(elements: list, predicate=bool) -> int:
+def count(elements: list, predicate: Callable[[Any], bool]=bool) -> int:
     return sum(1 for each in elements if predicate(each))
 
 
-def any_of(elements: list, predicate=bool) -> bool:
+def any_of(elements: list, predicate: Callable[[Any], bool]=bool) -> bool:
     return next((True for elements in elements if predicate(elements)), False)
 
 
