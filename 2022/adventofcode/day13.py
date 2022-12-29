@@ -34,7 +34,7 @@ def compare(pair):
             return compare([lt, rt])
         case [[left, *lt], [right, *rt]]:
             return compare([left, right])
-        case [[[], *lt], [[], *rt]] if left == right:
+        case [[[], *lt], [[], *rt]]:
             return compare([lt, rt])
         case [[], _]:
             return True

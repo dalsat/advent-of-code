@@ -21,6 +21,12 @@ def parse_numbers(line: str) -> list[int]:
     return list(map(int, re.findall(r'-?\d+', line)))
 
 
+def parse_number(line: str) -> int:
+    numbers = parse_numbers(line)
+    assert len(numbers) == 1
+    return numbers[0]
+
+
 def count(elements: list, predicate: Callable[[Any], bool]=bool) -> int:
     return sum(1 for each in elements if predicate(each))
 
