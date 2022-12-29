@@ -25,7 +25,7 @@ def monkeyPack(specs, rounds, with_discount):
     class Monkey:
         id: int
         items: list[int]
-        operation: Callable[[int], int]
+        operation: str
         test_number: int
         true_target: int
         false_target: int

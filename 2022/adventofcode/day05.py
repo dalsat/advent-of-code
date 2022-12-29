@@ -1,5 +1,3 @@
-import itertools
-
 from aoc import load_day, parse_numbers
 
 
