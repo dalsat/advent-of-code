@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from heapq import heappush, heappop
 from dataclasses import dataclass, field
 
 from aoc import Point, load_day
@@ -29,20 +30,18 @@ def part2(data):
 
 def trip(start, goal, initial_time):
 
-    queue: list[Position] = []
+    queue: list[PriorityItem] = []
     index: set[Position] = set()
 
     def push(position: Point, steps):
-        nonlocal queue
         distance = steps + abs(goal[0] - position[0]) + abs(goal[1] - position[1])
-        new_position = Position(*position, steps, distance)
+        new_position = Position(*position, steps)
         if new_position not in index:
             index.add(new_position)
-            queue.append(new_position)
-            queue = sorted(queue, key=lambda e: e.distance)
+            heappush(queue, PriorityItem(distance, new_position))
     
     def pop():
-        item = queue.pop(0)
+        item = heappop(queue).item
         index.remove(item)
         return item
 
@@ -63,7 +62,12 @@ class Position:
     x: int
     y: int
     steps: int
-    distance: int = field(hash=False, compare=False)
+
+
+@dataclass(frozen=True, order=True)
+class PriorityItem:
+    distance: int
+    item: Position = field(compare=False)
 
 
 class Map:
