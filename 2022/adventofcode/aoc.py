@@ -3,6 +3,8 @@ from typing import Any, Callable
 
 
 Point = tuple[int, int]
+Interval = tuple[int, int]
+
 
 def load_day(day: int, separator="\n", extract_singleton=True):
     with open(f"input/day-{str(day).zfill(2)}.txt", "r") as f:
