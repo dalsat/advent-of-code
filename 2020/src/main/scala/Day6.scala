@@ -7,9 +7,9 @@ import scala.math.pow
 object Day6 extends Solution(6):
 
 
-  override def part1 = CustomCounter(input).count
+  override def part1: SolutionType = CustomCounter(input).count
 
-  override def part2 = AdvancedCustomCounter(input).count
+  override def part2: SolutionType = AdvancedCustomCounter(input).count
 
 
   class CustomCounter(dataset: Dataset):

@@ -31,11 +31,3 @@ def parse_number(line: str) -> int:
 
 def count(elements: list, predicate: Callable[[Any], bool]=bool) -> int:
     return sum(1 for each in elements if predicate(each))
-
-
-def any_of(elements: list, predicate: Callable[[Any], bool]=bool) -> bool:
-    return next((True for elements in elements if predicate(elements)), False)
-
-
-def all_of(elements: list, predicate=bool) -> bool:
-    return not any_of(elements, lambda x: not predicate(x))

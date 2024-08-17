@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from aoc import Interval, Point, any_of, load_day, parse_numbers
+from aoc import Interval, Point, load_day, parse_numbers
 
 
 __day__ = 15
@@ -88,7 +88,7 @@ class Row:
         return [e for e in range(*window) if e not in self]
 
     def __contains__(self, item: int) -> bool:
-        return any_of(self.intervals, lambda e: e[0] <= item <= e[1])
+        return any(map(lambda e: e[0] <= item <= e[1], self.intervals))
 
     def __len__(self) -> int:
         values = list(1 + interval[1] - interval[0] for interval in self.intervals)

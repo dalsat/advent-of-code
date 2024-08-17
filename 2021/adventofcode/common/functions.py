@@ -1,10 +1,11 @@
 import functools
 import re
 import sys
+from typing import Any, Callable
 
 from .typing import Dataset
 
-def day(day: int, apply=lambda e: e) -> Dataset:
+def day(day: int, apply: Callable[[str], Any] = lambda e: e) -> Dataset | str:
     try:
         with open(f'input/day-{day}.txt') as file:
             lines = list([apply(line.strip()) for line in file.readlines()])

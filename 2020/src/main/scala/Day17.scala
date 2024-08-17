@@ -3,12 +3,12 @@ package me.dalsat.adventofcode
 
 object Day17 extends Solution(17):
 
-  override def part1 = pocketDimension3.execute(6).numberOfActiveCubes
+  override def part1: SolutionType = pocketDimension3.execute(6).numberOfActiveCubes
 
-  override def part2 = pocketDimension4.execute(6).numberOfActiveCubes
+  override def part2: SolutionType = pocketDimension4.execute(6).numberOfActiveCubes
 
-  val pocketDimension3 = PocketDimension.from(input)(3)
-  val pocketDimension4 = PocketDimension.from(input)(4)
+  private val pocketDimension3 = PocketDimension.from(input)(3)
+  private val pocketDimension4 = PocketDimension.from(input)(4)
 
 
   type Cube = Seq[Int]
