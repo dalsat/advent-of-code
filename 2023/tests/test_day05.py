@@ -41,7 +41,7 @@ humidity-to-location map:
 input2 = input1
 
 result1 = 35
-result2 = -1
+result2 = 46
 
 
 def test_part1():
