@@ -10,8 +10,9 @@ Class {
 	#classInstVars : [
 		'defaultInstance'
 	],
-	#category : 'AdventOfCode',
-	#package : 'AdventOfCode'
+	#category : 'AdventOfCode-Core',
+	#package : 'AdventOfCode',
+	#tag : 'Core'
 }
 
 { #category : 'accessing' }

@@ -8,8 +8,9 @@ Class {
 		'data',
 		'parsedData'
 	],
-	#category : 'AdventOfCode',
-	#package : 'AdventOfCode'
+	#category : 'AdventOfCode-Core',
+	#package : 'AdventOfCode',
+	#tag : 'Core'
 }
 
 { #category : 'accessing' }
@@ -44,6 +45,12 @@ AoCSolution class >> withSample [
 	^ self new
 		  data: self sample;
 		  yourself
+]
+
+{ #category : 'accessing' }
+AoCSolution >> anyOne [
+
+	^ self parsedData anyOne 
 ]
 
 { #category : 'accessing' }

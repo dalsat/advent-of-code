@@ -4,8 +4,9 @@ Solution for Day 1: Historian Hysteria
 Class {
 	#name : 'Day01',
 	#superclass : 'AoCSolution',
-	#category : 'AdventOfCode',
-	#package : 'AdventOfCode'
+	#category : 'AdventOfCode-Day01',
+	#package : 'AdventOfCode',
+	#tag : 'Day01'
 }
 
 { #category : 'accessing' }
