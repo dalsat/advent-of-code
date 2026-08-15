@@ -49,7 +49,7 @@ impl Battery {
 
 fn parse_lines<'a>(text: &str) -> Vec<&str> {
     text.lines()
-        .map(|line| line.trim())
+        .map(str::trim)
         .filter(|line| !line.is_empty())
         .collect()
 }
@@ -58,7 +58,8 @@ fn main() {
     let input = read_file(3);
     let batteries: Vec<Battery> = parse_lines(&input)
         .into_iter()
-        .map(|e| Battery(String::from(e)))
+        .map(String::from)
+        .map(Battery)
         .collect();
 
     let part1 = batteries

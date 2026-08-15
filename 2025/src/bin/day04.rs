@@ -36,22 +36,6 @@ impl Map {
         }
     }
 
-    fn from(string: &str) -> Self {
-        let lines: Vec<&str> = string.lines().map(|e| e.trim()).collect();
-        let mut new_map = Map::new(lines.len());
-
-        for (y, line) in lines.iter().enumerate() {
-            for (x, each) in line.char_indices() {
-                match each {
-                    '@' => new_map.add_roll(Point::at(x as i32, y as i32)),
-                    '.' => (),
-                    _ => panic!("wtf is this? \"{each}\""),
-                }
-            }
-        }
-        new_map
-    }
-
     // Operations
     fn add_roll(&mut self, position: Point) {
         self.rolls.insert(position);
@@ -114,9 +98,27 @@ impl Map {
     }
 }
 
+impl From<&str> for Map {
+    fn from(string: &str) -> Self {
+        let lines: Vec<&str> = string.lines().map(|e| e.trim()).collect();
+        let mut new_map = Map::new(lines.len());
+
+        for (y, line) in lines.iter().enumerate() {
+            for (x, each) in line.char_indices() {
+                match each {
+                    '@' => new_map.add_roll(Point::at(x as i32, y as i32)),
+                    '.' => (),
+                    _ => panic!("wtf is this? \"{each}\""),
+                }
+            }
+        }
+        new_map
+    }
+}
+
 fn main() {
     let input = read_file(4);
-    let map = Map::from(&input);
+    let map = Map::from(input.as_str());
 
     let part1 = map.accessible_rolls().len();
 

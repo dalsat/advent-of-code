@@ -96,29 +96,12 @@ impl Dial {
 fn main() {
     let input = read_file(1);
 
-    let moves: Vec<Move> = input
-        .lines()
-        .map(|e| e.trim())
-        .map(|e| Move::from(e))
-        .collect();
+    let moves: Vec<Move> = input.lines().map(str::trim).map(Move::from).collect();
 
     let mut dial = Dial::new();
 
     for each in moves {
-        let value_before = dial.value;
         dial.add(&each);
-
-        print!(
-            "{} + {} = {} [{}]",
-            value_before,
-            each.eval(),
-            dial.value,
-            dial.pass_by_zero
-        );
-        if dial.value == 0 {
-            print!(" * ({})", dial.count_zero);
-        }
-        println!();
     }
 
     println!("Part 1: {}", dial.count_zero);

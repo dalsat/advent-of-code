@@ -12,7 +12,9 @@ impl TokenRange {
             end,
         }
     }
+}
 
+impl From<&str> for TokenRange {
     fn from(range_str: &str) -> Self {
         let tokens = range_str.split("-").collect::<Vec<_>>();
         assert!(tokens.len() == 2, "{tokens:?}");
@@ -89,17 +91,14 @@ fn main() {
     let tokens: Vec<u64> = input
         .trim()
         .split(",")
-        .map(|e| e.trim())
+        .map(str::trim)
         .filter(|e| !e.is_empty())
-        .flat_map(|e| TokenRange::from(e))
+        .flat_map(TokenRange::from)
         .collect();
 
     let part1: u64 = tokens.iter().filter(|token| !is_token_valid(token)).sum();
 
-    let part2: u64 = tokens
-        .iter()
-        .filter(|token| has_repeated_sequence(token))
-        .sum();
+    let part2: u64 = tokens.into_iter().filter(has_repeated_sequence).sum();
 
     println!("Part 1: {}", part1);
     println!("Part 2: {}", part2);

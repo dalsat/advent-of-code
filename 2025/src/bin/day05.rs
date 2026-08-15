@@ -62,7 +62,7 @@ fn main() {
 
     let sections: Vec<Vec<&str>> = input
         .split("\n\n")
-        .map(|e| e.lines().map(|line| line.trim()).collect())
+        .map(|e| e.lines().map(str::trim).collect())
         .collect();
     assert!(sections.len() == 2, "Wrong number of sections");
 
