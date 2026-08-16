@@ -1,14 +1,12 @@
-from __future__ import annotations
-from abc import abstractclassmethod
+from abc import abstractmethod
 from dataclasses import dataclass
 from functools import reduce
 
-from common import day, Dataset, Solution
+from common import day
 from common.typing import Char
 
 
 class PacketParser:
-
     @classmethod
     def hex_to_bin(cls, hex_char: Char):
         return bin(int(hex_char, 16))[2:].zfill(4)
@@ -19,17 +17,17 @@ class PacketParser:
         self.read_counter = 0
 
     @classmethod
-    def parse_hex(cls, hex_packet: str):
-        bin_packet = ''.join(map(cls.hex_to_bin, hex_packet))
+    def parse_hex(cls, hex_packet: str) -> Packet:
+        bin_packet = "".join(map(cls.hex_to_bin, hex_packet))
         return PacketParser(bin_packet).parse()
 
-    def read(self, bits: int=1):
+    def read(self, bits: int = 1) -> str:
         self.read_counter += bits
-        return ''.join(next(self.packet_iter) for _ in range(bits))
-    
-    def read_int(self, bits: int=1):
+        return "".join(next(self.packet_iter) for _ in range(bits))
+
+    def read_int(self, bits: int = 1) -> int:
         return int(self.read(bits), 2)
-        
+
     def parse(self) -> Packet:
         version = self.read_int(3)
         type_id = self.read_int(3)
@@ -39,8 +37,7 @@ class PacketParser:
         else:
             return self.parse_operator_packet(version, type_id)
 
-
-    def parse_literal_packet(self, version: int, type_id: int):
+    def parse_literal_packet(self, version: int, type_id: int) -> LiteralPacket:
         at_end = False
         bits = []
 
@@ -48,12 +45,7 @@ class PacketParser:
             at_end = not bool(self.read_int())
             bits.append(str(self.read(4)))
 
-        return LiteralPacket(
-            version,
-            type_id,
-            int(''.join(bits), 2)
-        )
-
+        return LiteralPacket(version, type_id, int("".join(bits), 2))
 
     def parse_operator_packet(self, version: int, type_id: int) -> OperatorPacket:
         length_type_id = self.read_int()
@@ -66,12 +58,7 @@ class PacketParser:
         else:
             subpackets = [self.parse() for _ in range(self.read_int(11))]
 
-        return OperatorPacket(
-            version,
-            type_id,
-            length_type_id,
-            subpackets
-        )
+        return OperatorPacket(version, type_id, length_type_id, subpackets)
 
 
 @dataclass
@@ -81,12 +68,13 @@ class Packet:
 
     def version_sum(self):
         return self.version
-    
-    @abstractclassmethod
+
+    @classmethod
+    @abstractmethod
     def eval(self):
         pass
 
-    
+
 @dataclass
 class LiteralPacket(Packet):
     literal: int
@@ -101,7 +89,7 @@ class LiteralPacket(Packet):
 @dataclass
 class OperatorPacket(Packet):
     length_type_id: int
-    packets: Packet
+    packets: list[Packet]
 
     def version_sum(self):
         return self.version + sum(sub.version_sum() for sub in self.packets)
@@ -126,31 +114,12 @@ class OperatorPacket(Packet):
             assert len(sub_eval) == 2
             return int(sub_eval[0] == sub_eval[1])
 
-    def print(self):
-        sub_eval = ', '.join(str(sub.print()) for sub in self.packets)
-        if self.type_id == 0:
-            return f'sum({sub_eval})'
-        elif self.type_id == 1:
-            return f'prod({sub_eval})'
-        elif self.type_id == 2:
-            return f'min({sub_eval})'
-        elif self.type_id == 3:
-            return f'max({sub_eval})'
-        elif self.type_id == 5:
-            return f'gt({sub_eval})'
-        elif self.type_id == 6:
-            return f'lt({sub_eval})'
-        elif self.type_id == 7:
-            return f'eq({sub_eval})'
 
-
-def run() -> tuple(Solution, Solution):
-    data: Dataset = day(16)
+def run() -> tuple[int, int]:
+    data = day(16, one_line=True)
     packet = PacketParser.parse_hex(data)
-    return (
-        packet.version_sum(),
-        packet.eval()
-    )
+    return (packet.version_sum(), packet.eval())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print(run())

@@ -1,6 +1,7 @@
+type Dataset = list[str]
+type IntDataset = list[int]
 
-Dataset = list[str]
-Solution = str
+type Solution = str | int
 
-Char = str
-Point = tuple[int, int]
+type Char = str
+type Point = tuple[int, int]

@@ -1,10 +1,9 @@
-from __future__ import annotations
+from typing import Self
 
-from common import day, Dataset, Solution, parse_numbers
+from common import day, parse_numbers
 
 
 class Aquarium:
-
     def __init__(self, data):
         fishes = [0] * 10
 
@@ -12,14 +11,14 @@ class Aquarium:
             fishes[fish] = fishes[fish] + 1
         self.fishes = fishes
 
-    def __len__(self):
+    def __len__(self) -> int:
         return sum(self.fishes)
 
-    def next_day(self, days=1):
+    def next_day(self, days=1) -> Self:
         reset_clock = 6
         newborn_clock = 8
         buffer_position = len(self.fishes) - 1
-        for day in range(days):
+        for _ in range(days):
             fishes = self.fishes
             newborns = fishes[0]
             fishes = fishes[1:] + fishes[:1]
@@ -30,11 +29,10 @@ class Aquarium:
 
         return self
 
-def run() -> tuple(Solution, Solution):
-    data = day(6, parse_numbers)
-    return (
-        len(Aquarium(data[0]).next_day(80)),
-        len(Aquarium(data[0]).next_day(256))
-    )
+
+def run() -> tuple[int, int]:
+    data = day(6, apply=parse_numbers, one_line=True)
+    return (len(Aquarium(data).next_day(80)), len(Aquarium(data).next_day(256)))
+
 
 print(run())

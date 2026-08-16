@@ -1,18 +1,32 @@
-from .typing import (
-    Dataset,
-    Solution,
-    Point,
-)
+__all__ = [
+    "Dataset",
+    "IntDataset",
+    "Point",
+    "Solution",
+    "all_of",
+    "any_of",
+    "combine",
+    "count",
+    "day",
+    "mult_all",
+    "parse_numbers",
+    "sum_all",
+]
 
 from .functions import (
-    day,
-    count,
-    any_of,
     all_of,
-    parse_numbers,
+    any_of,
     combine,
+    count,
+    day,
+    mult_all,
+    parse_numbers,
     sum_all,
-    mult_all
 )
-
 from .matrix import *
+from .typing import (
+    Dataset,
+    IntDataset,
+    Point,
+    Solution,
+)

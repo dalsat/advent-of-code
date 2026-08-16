@@ -1,7 +1,6 @@
-from __future__ import annotations
 from queue import PriorityQueue
 
-from common import day, Dataset, Solution, Point
+from common import Point, day
 
 
 class Map:
@@ -13,18 +12,19 @@ class Map:
 
     def at(self, node: Point) -> int:
         x, y = node
-        assert x < self.size and y < self.size, f'invalid position ({x}, {y})'
+        assert x < self.size and y < self.size, f"invalid position ({x}, {y})"
         new_value = (
-            self.grid[y % self.small_size][x % self.small_size] +
-            x // self.small_size + y // self.small_size
+            self.grid[y % self.small_size][x % self.small_size]
+            + x // self.small_size
+            + y // self.small_size
         )
-        
+
         while new_value >= 10:
             new_value = new_value % 10 + 1
         return new_value
 
     def shortest_path(self):
-        INF = 10 * self.size ** 2
+        INF = 10 * self.size**2
         queue = PriorityQueue()
         visited_nodes = set()
         distances = {}
@@ -33,8 +33,10 @@ class Map:
             x, y = node
             return (
                 (x1, y1)
-                for x1, y1 in ((x-1, y), (x+1, y), (x, y-1), (x, y+1))
-                if 0 <= x1 < self.size and 0 <= y1 < self.size and (x1, y1) not in visited_nodes
+                for x1, y1 in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1))
+                if 0 <= x1 < self.size
+                and 0 <= y1 < self.size
+                and (x1, y1) not in visited_nodes
             )
 
         queue.put((0, (0, 0)))
@@ -48,16 +50,17 @@ class Map:
                 if new_distance < distances.get(neighbor, INF):
                     distances[neighbor] = new_distance
                     queue.put((new_distance, neighbor))
-        
-        return distances[(self.size-1, self.size-1)]
+
+        return distances[(self.size - 1, self.size - 1)]
 
 
-def run() -> tuple(Solution, Solution):
-    data: Dataset = day(15, lambda row: list(map(int, list(row))))
-    m = Map(data, 5)
+def run() -> tuple[int, int]:
+    data = day(15, apply=lambda row: list(map(int, list(row))))
+
     return (
         Map(data).shortest_path(),
         Map(data, 5).shortest_path(),
     )
+
 
 print(run())

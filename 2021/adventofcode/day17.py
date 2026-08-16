@@ -1,16 +1,16 @@
-from __future__ import annotations
-
-from common import day, Dataset, Solution
+from common import day
 
 
-def parse_target(line):
+def parse_target(line: str) -> tuple[int]:
     def range_from_string(range_str: str):
-        return tuple(map(int, range_str.split('..')))
-    return tuple(map(range_from_string, line.split('x=')[1].split(', y=')))
+        return tuple(map(int, range_str.split("..")))
+
+    return tuple(map(range_from_string, line.split("x=")[1].split(", y=")))
 
 
 def max_height(target):
     return max(all_hits(target))
+
 
 def all_hits(target):
     x_threshold = max(map(abs, target[0])) + 1
@@ -24,7 +24,9 @@ def all_hits(target):
 
 
 class Probe:
-    def __init__(self, dx: int, dy: int, target_x: tuple[int], target_y: tuple[int]):
+    def __init__(
+        self, dx: int, dy: int, target_x: tuple[int, int], target_y: tuple[int, int]
+    ):
         self.x = 0
         self.y = 0
         self.dx = dx
@@ -56,7 +58,7 @@ class Probe:
             self.dx -= self.dx // max(1, abs(self.dx))
             self.dy -= 1
             self.max_height = max(self.max_height, self.y)
-    
+
     def shoot(self):
         while not self.is_overshot():
             self.step()
@@ -65,11 +67,8 @@ class Probe:
         return False
 
     def on_target(self):
-        return (
-            self.min_x <= self.x <= self.max_x and
-            self.min_y <= self.y <= self.max_y
-        )
-    
+        return self.min_x <= self.x <= self.max_x and self.min_y <= self.y <= self.max_y
+
     def is_overshot(self):
         return self.is_x_overshot() or self.is_y_overshot()
 
@@ -80,14 +79,11 @@ class Probe:
         return self.y < self.min_y
 
 
-def run() -> tuple(Solution, Solution):
-    data: Dataset = day(17, parse_target)
+def run() -> tuple[int, int]:
+    data = day(17, apply=parse_target, one_line=True)
     hits = list(all_hits(data))
-    return (
-        max(hits),
-        len(hits)
-    )
+    return (max(hits), len(hits))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(run())

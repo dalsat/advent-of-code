@@ -1,10 +1,7 @@
-from __future__ import annotations
-
-from common import day, Dataset, Solution, Point, DiagonalNeighborsMatrix, all_of
+from common import DiagonalNeighborsMatrix, Point, all_of, day
 
 
 class FlashingMatrix(DiagonalNeighborsMatrix):
-
     threshold: int = 9
 
     def __init__(self, data):
@@ -30,7 +27,7 @@ class FlashingMatrix(DiagonalNeighborsMatrix):
         self.flashes += 1
         for neighbor in self.neighbors(cell):
             self.increment(neighbor)
-    
+
     def end_step(self):
         for row_index, row in enumerate(self.matrix):
             for col_index, cell in enumerate(row):
@@ -48,11 +45,13 @@ class FlashingMatrix(DiagonalNeighborsMatrix):
     def is_synchronized(self):
         return all_of(self.matrix, lambda row: all_of(row, lambda cell: cell == 0))
 
-def run() -> tuple(Solution, Solution):
-    data: Dataset = day(11, lambda line: list(map(int, list(line))))
+
+def run() -> tuple[int, int]:
+    data = day(11, apply=lambda line: list(map(int, list(line))))
     return (
         FlashingMatrix(data).run(100),
-        FlashingMatrix(data).find_first_synchronized()
+        FlashingMatrix(data).find_first_synchronized(),
     )
+
 
 print(run())

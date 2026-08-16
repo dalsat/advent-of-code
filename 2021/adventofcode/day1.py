@@ -1,31 +1,34 @@
 from itertools import pairwise
 
-from common import count, day, Dataset, Solution
+from common import count, day
 
 
-def triples(items: list):
-    return [(one, two, three) for one, (two, three) in zip(items, list(pairwise(items[1:])))]
+def triples(items: list[int]) -> list[tuple[int, int, int]]:
+    return [
+        (one, two, three) for one, (two, three) in zip(items, list(pairwise(items[1:])))
+    ]
 
 
-def is_increasing(couple):
+def is_increasing(couple: tuple[int, int]) -> bool:
     first, second = couple
     return first < second
 
 
-def find_increasing(data: Dataset) -> Solution:
-    return count(is_increasing, pairwise(data))
+def count_increasing(data: list[int]) -> int:
+    return count(pairwise(data), is_increasing)
 
 
-def find_increasing_triples(data: Dataset) -> Solution:
+def count_increasing_triples(data: list[int]) -> int:
     avg_values = [first + second + third for first, second, third in triples(data)]
-    return count(is_increasing, pairwise(avg_values))
+    return count(pairwise(avg_values), is_increasing)
 
 
-def run():
+def run() -> tuple[int, int]:
     data = day(1, apply=int)
     return (
-        find_increasing(data),
-        find_increasing_triples(data)
+        count_increasing(data),
+        count_increasing_triples(data),
     )
+
 
 print(run())
